@@ -4,8 +4,6 @@ A [golang](https://go.dev/) SDK for the [Skydio Cloud API](https://apidocs.skydi
 
 Skydio Cloud allows you to manage your Skydio vehicles using Fleet Manager and Media Sync to provide automatic media and flight data uploads.
 
-**NOTE: THIS IS UNDER ACTIVE DEVELOPMENT AND IS NOT WORKING!**
-
 ## Installation
 
 go-skydio is compatible with Go releases in module mode:
