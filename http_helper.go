@@ -108,12 +108,16 @@ func doHTTP[T any](ctx context.Context, c *Client, r *http.Request) (*T, error) 
 	defer resp.Body.Close()
 
 	var apiResp ApiResponse[T]
-	decErr := json.NewDecoder(resp.Body).Decode(&apiResp)
-	if decErr == io.EOF {
-		decErr = nil // ignore EOF errors caused by empty response body
+	err = json.NewDecoder(resp.Body).Decode(&apiResp)
+
+	// ignore EOF errors caused by empty response body
+	if err != nil && err != io.EOF {
+		return nil, err
 	}
-	if decErr != nil {
-		err = decErr
+
+	// ErrorCodeSuccess is the only code that indicates success.
+	if apiResp.ErrorCode != ErrorCodeSuccess {
+		return nil, errors.New(apiResp.Error())
 	}
 
 	return &apiResp.Data, err
