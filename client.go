@@ -49,9 +49,9 @@ type service struct {
 
 type option func(*Client)
 
-// WithApiKey overrides the API key on the Client used to Authenticate the
+// WithApiToken overrides the API key on the Client used to Authenticate the
 // Skydio API.
-func WithApiKey(apiKey string) option {
+func WithApiToken(apiKey string) option {
 	return func(c *Client) {
 		if apiKey != "" {
 			c.apiKey = apiKey
@@ -117,5 +117,5 @@ func NewClient(opts ...option) *Client {
 }
 
 func NewAuthenticatedClient(apiKey string, opts ...option) *Client {
-	return NewClient(append(opts, WithApiKey(apiKey))...)
+	return NewClient(append(opts, WithApiToken(apiKey))...)
 }

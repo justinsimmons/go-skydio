@@ -87,15 +87,15 @@ type Pagination struct {
 	TotalPages  int `json:"total_page"`   // Total pages of results.
 }
 
-// IsLast returns true if there are no more pages to fetch.
-func (p *Pagination) IsLast() bool {
+// HasNext returns true if there are more pages to fetch.
+func (p *Pagination) HasNext() bool {
 	// Current page starts at 1, if it is 0 then it has not been initialized,
-	// so we return false assuming this is the first run.
+	// so we return true assuming this is the first run.
 	if p.CurrentPage <= 0 {
-		return false
+		return true
 	}
 
-	return p.TotalPages == p.CurrentPage
+	return p.TotalPages != p.CurrentPage
 }
 
 // Skydio API token.

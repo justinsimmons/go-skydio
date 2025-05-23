@@ -100,7 +100,7 @@ opts := &skydio.QueryFlightsOptions{
 var allFlights []skydio.Flight
 
 for {
-    flights, page, err := client.Flights.Query(ctx, opts)
+    flights, page, err := client.Flights.Query(context.TODO(), opts)
     if err != nil {
         return err
     }
@@ -108,7 +108,7 @@ for {
     allFlights = append(allFlights, flights...)
 
     // If there are no more pages break.
-    if page.IsLast() {
+    if !page.HasNext() {
         break
     }
 
