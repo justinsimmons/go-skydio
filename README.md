@@ -22,6 +22,8 @@ First initialize a Skydio API client. This will allow you to interface with the 
 import "github.com/justinsimmons/go-coinbase"
 
 func main() {
+    token := "super secret API token"
+
     client := skydio.NewAuthenticatedClient(token)
 }
 ```
@@ -29,7 +31,34 @@ func main() {
 Once you have the client you can perform any of the various API operations:
 
 ```go
-// TODO
+    ctx := context.Background()
+
+    client := skydio.NewAuthenticatedClient(token)
+
+    // Retrieve a flight by its identifier.
+    flight, err := client.Flights.Get(ctx, "flight-id")
+    if err != nil {
+        return nil, err
+    }
+```
+
+Some API methods have optional parameters that can be passed. For example:
+
+```go
+    client := skydio.NewAuthenticatedClient(token)
+
+    // Optional parameters that can filter the results.
+    opts := &skydio.QueryVehiclesOptions {
+        UserEmail: "testy.mctestface@gmail.comm" // Return vehicles belonging to this user.
+    }
+
+    // The list vehicles API is paginated so it will return a Pagination struct.
+    // This can be used to enumerate the results, for an example see the
+    // pagination section below.
+    vehicles, page, err := client.Vehicles.Query(ctx, opts)
+    if err != nil {
+        return err
+    }
 ```
 
 The services of the client divide the API into logical chunks and correspond to the structure of the Skydio Cloud API [documentation](https://apidocs.skydio.com/reference/introduction).
@@ -55,10 +84,47 @@ client := skydio.NewClient(skydio.WithApiKey(token))
 client = skydio.NewAuthenticatedClient(token)
 ```
 
+## Supported APIs
+
+| API                                                                                    | Description                                  | Supported |
+| -------------------------------------------------------------------------------------- | -------------------------------------------- | --------- |
+| [Get Alert History](https://apidocs.skydio.com/reference/alerts_get_v0_alerts_history) | Search mission alerts by various parameters. | ✅        |
+
 ## Pagination
 
-## Liscense
+All requests for resource collections (flights, mission, vehicles, etc.)
+support pagination.
+
+```go
+client = skydio.NewAuthenticatedClient(token)
+
+opts := &skydio.QueryFlightsOptions{
+    PerPage: 50, // Number of results to return per page.
+}
+
+// Slice of all pages of results.
+var allFlights []skydio.Flight
+
+for {
+    flights, page, err := client.Flights.Query(ctx, opts)
+    if err != nil {
+        return err
+    }
+
+    allFlights = append(allFlights, flights...)
+
+    // If there are no more pages break.
+    if page.IsEnd() {
+        break
+    }
+
+    opts.NextPage = page.PageNumber + 1
+}
+```
+
+## License
 
 Copyright 2025 Justin Simmons.
 
-This program is released under the [TBD]() or later.
+This program is released under the BSD-style license found in the
+[LICENSE](./LICENSE) file.
