@@ -84,12 +84,6 @@ client := skydio.NewClient(skydio.WithApiKey(token))
 client = skydio.NewAuthenticatedClient(token)
 ```
 
-## Supported APIs
-
-| API                                                                                    | Description                                  | Supported |
-| -------------------------------------------------------------------------------------- | -------------------------------------------- | --------- |
-| [Get Alert History](https://apidocs.skydio.com/reference/alerts_get_v0_alerts_history) | Search mission alerts by various parameters. | ✅        |
-
 ## Pagination
 
 All requests for resource collections (flights, mission, vehicles, etc.)
