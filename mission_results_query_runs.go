@@ -9,7 +9,7 @@ import (
 )
 
 // Expected response from the query mission results API.
-type QueryMissionRunsV0Response struct {
+type queryMissionRunsV0Response struct {
 	MissionRuns []MissionRuns `json:"mission_runs"`
 	Pagination  Pagination    `json:"pagination"`
 }
@@ -30,22 +30,22 @@ type QueryMissionResultsOptions struct {
 func (s *MissionResultsService) QueryRuns(
 	ctx context.Context,
 	opts *QueryMissionResultsOptions,
-) (*QueryMissionRunsV0Response, error) {
+) ([]MissionRuns, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/mission_runs", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryMissionRunsV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryMissionRunsV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.MissionRuns, &resp.Pagination, err
 }

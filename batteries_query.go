@@ -6,7 +6,7 @@ import (
 )
 
 // Expected response from the query batteries API.
-type QueryBatteriesV0Response struct {
+type queryBatteriesV0Response struct {
 	Batteries  []Battery  `json:"batteries"`
 	Pagination Pagination `json:"pagination"`
 }
@@ -22,22 +22,22 @@ type QueryBatteriesOptions struct {
 func (s *BatteriesService) Query(
 	ctx context.Context,
 	opts *QueryBatteriesOptions,
-) (*QueryBatteriesV0Response, error) {
+) ([]Battery, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/batteries", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryBatteriesV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryBatteriesV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.Batteries, &resp.Pagination, err
 }

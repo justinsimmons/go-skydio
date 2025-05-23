@@ -7,7 +7,7 @@ import (
 )
 
 // Expected response from the query flights API.
-type QueryFlightsV0Response struct {
+type queryFlightsV0Response struct {
 	Flights    []Flight   `json:"flights"`
 	Pagination Pagination `json:"pagination"`
 }
@@ -24,22 +24,22 @@ type QueryFlightsOptions struct {
 func (s *FlightsService) Query(
 	ctx context.Context,
 	opts *QueryFlightsOptions,
-) (*QueryFlightsV0Response, error) {
+) ([]Flight, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/flights", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryFlightsV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryFlightsV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.Flights, &resp.Pagination, err
 }

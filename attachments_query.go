@@ -6,7 +6,7 @@ import (
 )
 
 // Expected response from the query vehicles API.
-type QueryAttachmentsV0Response struct {
+type queryAttachmentsV0Response struct {
 	Attachments []Attachment `json:"attachments"`
 	Pagination  Pagination   `json:"pagination"`
 }
@@ -22,22 +22,22 @@ type QueryAttachmentsOptions struct {
 func (s *AttachmentsService) Query(
 	ctx context.Context,
 	opts *QueryVehiclesOptions,
-) (*QueryAttachmentsV0Response, error) {
+) ([]Attachment, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/attachments", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryAttachmentsV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryAttachmentsV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.Attachments, &resp.Pagination, nil
 }

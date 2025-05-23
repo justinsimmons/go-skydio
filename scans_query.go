@@ -7,7 +7,7 @@ import (
 )
 
 // Expected response from the query scans API.
-type QueryScansV0Response struct {
+type queryScansV0Response struct {
 	Scans      []Scan     `json:"scans"`
 	Pagination Pagination `json:"pagination"`
 }
@@ -30,22 +30,22 @@ type QueryScansOptions struct {
 func (s *ScansService) Query(
 	ctx context.Context,
 	opts *QueryScansOptions,
-) (*QueryScansV0Response, error) {
+) ([]Scan, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/scans", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryScansV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryScansV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.Scans, &resp.Pagination, err
 }

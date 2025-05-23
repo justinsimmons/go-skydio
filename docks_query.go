@@ -6,7 +6,7 @@ import (
 )
 
 // Expected response from the query docks API.
-type QueryDocksV0Response struct {
+type queryDocksV0Response struct {
 	Docks      []Dock     `json:"docks"`
 	Pagination Pagination `json:"pagination"`
 }
@@ -22,22 +22,22 @@ type QueryDocksOptions struct {
 func (s *DocksService) Query(
 	ctx context.Context,
 	opts *QueryDocksOptions,
-) (*QueryDocksV0Response, error) {
+) ([]Dock, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/docks", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryDocksV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryDocksV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.Docks, &resp.Pagination, err
 }

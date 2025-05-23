@@ -6,7 +6,7 @@ import (
 )
 
 // Expected response from the query vehicles API.
-type QueryVehiclesV0Response struct {
+type queryVehiclesV0Response struct {
 	Vehicles   []Vehicle  `json:"vehicles"`
 	Pagination Pagination `json:"pagination"`
 }
@@ -24,22 +24,22 @@ type QueryVehiclesOptions struct {
 func (s *VehiclesService) Query(
 	ctx context.Context,
 	opts *QueryVehiclesOptions,
-) (*QueryVehiclesV0Response, error) {
+) ([]Vehicle, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/vehicles", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryVehiclesV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryVehiclesV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.Vehicles, &resp.Pagination, err
 }

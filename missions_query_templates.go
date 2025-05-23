@@ -7,7 +7,7 @@ import (
 )
 
 // Expected response from the query mission templates API.
-type QueryMissionTemplatesV0Response struct {
+type queryMissionTemplatesV0Response struct {
 	MissionTemplates []MissionTemplate `json:"mission_templates"`
 	Pagination       Pagination        `json:"pagination"`
 }
@@ -24,22 +24,22 @@ type QueryMissionTemplatesOptions struct {
 func (s *MissionsService) QueryTemplates(
 	ctx context.Context,
 	opts *QueryMissionTemplatesOptions,
-) (*QueryMissionTemplatesV0Response, error) {
+) ([]MissionTemplate, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/mission/templates", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryMissionTemplatesV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryMissionTemplatesV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.MissionTemplates, &resp.Pagination, err
 }

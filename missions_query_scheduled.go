@@ -8,7 +8,7 @@ import (
 )
 
 // Expected response from the query scheduled missions API.
-type QueryScheduledMissionsV0Response struct {
+type queryScheduledMissionsV0Response struct {
 	ScheduledMissions []ScheduledMission `json:"scheduled_missions"`
 	Pagination        Pagination         `json:"pagination"`
 }
@@ -28,22 +28,22 @@ type QueryScheduledMissionsOptions struct {
 func (s *MissionsService) QueryScheduled(
 	ctx context.Context,
 	opts *QueryScheduledMissionsOptions,
-) (*QueryScheduledMissionsV0Response, error) {
+) ([]ScheduledMission, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/mission/schedules", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryScheduledMissionsV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryScheduledMissionsV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.ScheduledMissions, &resp.Pagination, err
 }

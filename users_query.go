@@ -6,7 +6,7 @@ import (
 )
 
 // Expected response from the query users API.
-type QueryUsersV0Response struct {
+type queryUsersV0Response struct {
 	User       []User     `json:"users"`
 	Pagination Pagination `json:"pagination"`
 }
@@ -24,22 +24,22 @@ type QueryUsersOptions struct {
 func (s *UsersService) Query(
 	ctx context.Context,
 	opts *QueryUsersOptions,
-) (*QueryUsersV0Response, error) {
+) ([]User, *Pagination, error) {
 
 	u, err := addOptions("/api/v0/users", opts)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	r, err := s.client.newRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	resp, err := doHTTP[QueryUsersV0Response](ctx, s.client, r)
+	resp, err := doHTTP[queryUsersV0Response](ctx, s.client, r)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp, err
+	return resp.User, &resp.Pagination, err
 }
