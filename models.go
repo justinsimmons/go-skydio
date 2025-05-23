@@ -190,7 +190,7 @@ const (
 type VehicleType byte
 
 const (
-	VehicleTypeR1 VehicleClass = iota
+	VehicleTypeR1 VehicleType = iota
 	VehicleTypeR3
 	VehicleTypeE1
 	VehicleTypeX10
