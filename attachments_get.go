@@ -23,8 +23,7 @@ func (s *AttachmentsService) Get(
 		return nil, err
 	}
 
-	var resp getAttachmentV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getAttachmentV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

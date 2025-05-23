@@ -42,11 +42,10 @@ func (s *MissionResultsService) QueryRuns(
 		return nil, err
 	}
 
-	var resp QueryMissionRunsV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[QueryMissionRunsV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

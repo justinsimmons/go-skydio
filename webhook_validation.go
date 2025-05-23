@@ -31,8 +31,7 @@ func (s *JwtService) GetWebhookValidation(
 		return nil, err
 	}
 
-	var resp getWebhookValidationResponse
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getWebhookValidationResponse](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

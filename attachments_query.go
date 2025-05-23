@@ -34,11 +34,10 @@ func (s *AttachmentsService) Query(
 		return nil, err
 	}
 
-	var resp QueryAttachmentsV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[QueryAttachmentsV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

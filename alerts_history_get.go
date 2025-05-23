@@ -41,11 +41,10 @@ func (s *AlertsService) GetHistory(
 		return nil, err
 	}
 
-	var resp GetAlertHistoryV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[GetAlertHistoryV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

@@ -90,36 +90,28 @@ func (c *Client) do(
 
 // doHTTP sends an API request and returns the API response. The API response
 // is JSON decoded and stored in the value pointed to by v, or returned as an
-// error if an API error has occurred. If v implements the io.Writer interface,
-// the raw response body will be written to v, without attempting to first
-// decode it. If v is nil, and no error happens, the response is returned as is.
+// error if an API error has occurred.
 //
 // The provided ctx must be non-nil, if it is nil an error is returned. If it
 // is canceled or times out, ctx.Err() will be returned.
-func (c *Client) doHTTP(ctx context.Context, r *http.Request, v any) error {
+func doHTTP[T any](ctx context.Context, c *Client, r *http.Request) (*T, error) {
 	resp, err := c.do(ctx, r)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer resp.Body.Close()
 
-	switch v := v.(type) {
-	case nil:
-	case io.Writer:
-		_, err = io.Copy(v, resp.Body)
-	default:
-		//	apiResp ApApiResponse[v]
-		decErr := json.NewDecoder(resp.Body).Decode(v)
-		if decErr == io.EOF {
-			decErr = nil // ignore EOF errors caused by empty response body
-		}
-		if decErr != nil {
-			err = decErr
-		}
+	var apiResp ApiResponse[T]
+	decErr := json.NewDecoder(resp.Body).Decode(&apiResp)
+	if decErr == io.EOF {
+		decErr = nil // ignore EOF errors caused by empty response body
+	}
+	if decErr != nil {
+		err = decErr
 	}
 
-	return err
+	return &apiResp.Data, err
 }
 
 // addOptions adds the parameters in opts as URL query parameters to s. opts

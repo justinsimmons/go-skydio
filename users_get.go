@@ -25,8 +25,7 @@ func (s *UsersService) Get(
 		return nil, err
 	}
 
-	var resp getUserV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getUserV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

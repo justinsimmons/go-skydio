@@ -42,11 +42,10 @@ func (s *ScansService) Query(
 		return nil, err
 	}
 
-	var resp QueryScansV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[QueryScansV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

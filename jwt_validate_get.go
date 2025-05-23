@@ -31,8 +31,7 @@ func (s *JwtService) GetJwkValidation(
 		return nil, err
 	}
 
-	var resp getJwtValidationV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getJwtValidationV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

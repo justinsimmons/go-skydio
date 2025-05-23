@@ -23,8 +23,7 @@ func (s *DocksService) Get(
 		return nil, err
 	}
 
-	var resp getDockV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getDockV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

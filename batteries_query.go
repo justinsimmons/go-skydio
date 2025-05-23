@@ -34,11 +34,10 @@ func (s *BatteriesService) Query(
 		return nil, err
 	}
 
-	var resp QueryBatteriesV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[QueryBatteriesV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

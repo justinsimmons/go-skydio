@@ -20,8 +20,7 @@ func (s *FlightsService) Get(ctx context.Context, id string) (*Flight, error) {
 		return nil, err
 	}
 
-	var resp getFlightV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getFlightV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

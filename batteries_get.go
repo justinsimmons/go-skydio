@@ -23,8 +23,7 @@ func (s *BatteriesService) Get(
 		return nil, err
 	}
 
-	var resp getBatteryV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getBatteryV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

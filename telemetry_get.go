@@ -27,11 +27,10 @@ func (s *TelemetryService) GetV1(
 		return nil, err
 	}
 
-	var resp GetTelemetryV1Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[GetTelemetryV1Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

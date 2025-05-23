@@ -36,11 +36,10 @@ func (s *UsersService) Query(
 		return nil, err
 	}
 
-	var resp QueryUsersV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[QueryUsersV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp, err
+	return resp, err
 }

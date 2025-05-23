@@ -23,8 +23,7 @@ func (s *WhoAmIService) Get(ctx context.Context) (*ApiToken, error) {
 		return nil, err
 	}
 
-	var resp whoAmIV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[whoAmIV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}

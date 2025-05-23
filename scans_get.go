@@ -23,8 +23,7 @@ func (s *ScansService) Get(
 		return nil, err
 	}
 
-	var resp getScanV0Response
-	err = s.client.doHTTP(ctx, r, &resp)
+	resp, err := doHTTP[getScanV0Response](ctx, s.client, r)
 	if err != nil {
 		return nil, err
 	}
