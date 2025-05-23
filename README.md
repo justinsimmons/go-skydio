@@ -31,12 +31,10 @@ func main() {
 Once you have the client you can perform any of the various API operations:
 
 ```go
-    ctx := context.Background()
-
     client := skydio.NewAuthenticatedClient(token)
 
     // Retrieve a flight by its identifier.
-    flight, err := client.Flights.Get(ctx, "flight-id")
+    flight, err := client.Flights.Get(context.TODO(), "flight-id")
     if err != nil {
         return nil, err
     }
@@ -55,7 +53,7 @@ Some API methods have optional parameters that can be passed. For example:
     // The list vehicles API is paginated so it will return a Pagination struct.
     // This can be used to enumerate the results, for an example see the
     // pagination section below.
-    vehicles, page, err := client.Vehicles.Query(ctx, opts)
+    vehicles, page, err := client.Vehicles.Query(context.TODO(), opts)
     if err != nil {
         return err
     }
