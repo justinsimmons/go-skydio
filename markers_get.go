@@ -17,6 +17,8 @@ type getMarkerV0Response struct {
 }
 
 // Fetch metadata about a marker by its UUID.
+//
+// API is in BETA, if there is a breaking change please submit a PR :).
 func (s *MarkersService) Get(ctx context.Context, id string) (*Marker, error) {
 	u := fmt.Sprintf("/api/v0/marker/%s", id)
 

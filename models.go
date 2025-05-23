@@ -181,16 +181,13 @@ type UploadStatus struct {
 	Uploading     bool `json:"uploading"`
 }
 
-// TODO: Skydio R1 Skydio 2 Skydio X2 Skydio X10
-//
-//go:generate enumer -type=VehicleClass -transform=title -trimprefix=VehicleClass -json
-type VehicleClass byte
+type VehicleClass string
 
 const (
-	VehicleClassSkydioR1 VehicleClass = iota
-	VehicleClassSkydio2
-	VehicleClassSkydioX2
-	VehicleClassSkydioX10
+	VehicleClassSkydioR1  VehicleClass = "Skydio R1"
+	VehicleClassSkydio2   VehicleClass = "Skydio R2"
+	VehicleClassSkydioX2  VehicleClass = "Skydio X2"
+	VehicleClassSkydioX10 VehicleClass = "Skydio X10"
 )
 
 // Skydio vehicle type.
@@ -281,16 +278,14 @@ type JWK struct {
 	N   string `json:"n"`   // RSA modulus.
 }
 
-// TODO: space seperated MEMBER TESTER MODERATOR ADMIN "REMOTE PILOT"
-//
-//go:generate enumer -type=OrganizationRole -transform=snake-upper -trimprefix=OrganizationRole -json
-type OrganizationRole byte
+type OrganizationRole string
 
 const (
-	OrganizationRoleMember OrganizationRole = iota
-	OrganizationRoleTesterModerator
-	OrganizationRoleAdmin
-	OrganizationRoleRemotePilot
+	OrganizationRoleMember      OrganizationRole = "MEMBER"
+	OrganizationRoleTester      OrganizationRole = "TESTER"
+	OrganizationRoleModerator   OrganizationRole = "MODERATOR"
+	OrganizationRoleAdmin       OrganizationRole = "ADMIN"
+	OrganizationRoleRemotePilot OrganizationRole = "REMOTE PILOT"
 )
 
 // User in the Skydio system.

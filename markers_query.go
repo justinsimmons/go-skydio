@@ -25,6 +25,8 @@ type QueryMarkersOptions struct {
 }
 
 // Search markers by various parameters.
+//
+// API is in BETA, if there is a breaking change please submit a PR :).
 func (s *MarkersService) Query(
 	ctx context.Context,
 	opts *QueryMarkersOptions,

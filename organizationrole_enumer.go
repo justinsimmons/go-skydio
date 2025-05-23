@@ -5,84 +5,62 @@ package skydio
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
-const _OrganizationRoleName = "MEMBERTESTER_MODERATORADMINREMOTE_PILOT"
-
-var _OrganizationRoleIndex = [...]uint8{0, 6, 22, 27, 39}
-
-const _OrganizationRoleLowerName = "membertester_moderatoradminremote_pilot"
-
 func (i OrganizationRole) String() string {
-	if i >= OrganizationRole(len(_OrganizationRoleIndex)-1) {
-		return fmt.Sprintf("OrganizationRole(%d)", i)
-	}
-	return _OrganizationRoleName[_OrganizationRoleIndex[i]:_OrganizationRoleIndex[i+1]]
-}
-
-// An "invalid array index" compiler error signifies that the constant values have changed.
-// Re-run the stringer command to generate them again.
-func _OrganizationRoleNoOp() {
-	var x [1]struct{}
-	_ = x[OrganizationRoleMember-(0)]
-	_ = x[OrganizationRoleTesterModerator-(1)]
-	_ = x[OrganizationRoleAdmin-(2)]
-	_ = x[OrganizationRoleRemotePilot-(3)]
-}
-
-var _OrganizationRoleValues = []OrganizationRole{OrganizationRoleMember, OrganizationRoleTesterModerator, OrganizationRoleAdmin, OrganizationRoleRemotePilot}
-
-var _OrganizationRoleNameToValueMap = map[string]OrganizationRole{
-	_OrganizationRoleName[0:6]:        OrganizationRoleMember,
-	_OrganizationRoleLowerName[0:6]:   OrganizationRoleMember,
-	_OrganizationRoleName[6:22]:       OrganizationRoleTesterModerator,
-	_OrganizationRoleLowerName[6:22]:  OrganizationRoleTesterModerator,
-	_OrganizationRoleName[22:27]:      OrganizationRoleAdmin,
-	_OrganizationRoleLowerName[22:27]: OrganizationRoleAdmin,
-	_OrganizationRoleName[27:39]:      OrganizationRoleRemotePilot,
-	_OrganizationRoleLowerName[27:39]: OrganizationRoleRemotePilot,
-}
-
-var _OrganizationRoleNames = []string{
-	_OrganizationRoleName[0:6],
-	_OrganizationRoleName[6:22],
-	_OrganizationRoleName[22:27],
-	_OrganizationRoleName[27:39],
+	return string(i)
 }
 
 // OrganizationRoleString retrieves an enum value from the enum constants string name.
 // Throws an error if the param is not part of the enum.
 func OrganizationRoleString(s string) (OrganizationRole, error) {
-	if val, ok := _OrganizationRoleNameToValueMap[s]; ok {
-		return val, nil
+	orgRole := OrganizationRole(s)
+
+	if orgRole.IsAOrganizationRole() {
+		return orgRole, nil
 	}
 
-	if val, ok := _OrganizationRoleNameToValueMap[strings.ToLower(s)]; ok {
-		return val, nil
-	}
-	return 0, fmt.Errorf("%s does not belong to OrganizationRole values", s)
+	return OrganizationRole(""), fmt.Errorf(
+		"%s does not belong to OrganizationRole values",
+		s,
+	)
 }
 
 // OrganizationRoleValues returns all values of the enum
 func OrganizationRoleValues() []OrganizationRole {
-	return _OrganizationRoleValues
+	return []OrganizationRole{
+		OrganizationRoleMember,
+		OrganizationRoleTester,
+		OrganizationRoleModerator,
+		OrganizationRoleAdmin,
+		OrganizationRoleRemotePilot,
+	}
 }
 
 // OrganizationRoleStrings returns a slice of all String values of the enum
 func OrganizationRoleStrings() []string {
-	strs := make([]string, len(_OrganizationRoleNames))
-	copy(strs, _OrganizationRoleNames)
+	vals := OrganizationRoleValues()
+	strs := make([]string, len(vals))
+
+	for i, val := range vals {
+		strs[i] = val.String()
+	}
+
 	return strs
 }
 
 // IsAOrganizationRole returns "true" if the value is listed in the enum definition. "false" otherwise
 func (i OrganizationRole) IsAOrganizationRole() bool {
-	for _, v := range _OrganizationRoleValues {
-		if i == v {
-			return true
-		}
+	switch i {
+	case
+		OrganizationRoleMember,
+		OrganizationRoleTester,
+		OrganizationRoleModerator,
+		OrganizationRoleAdmin,
+		OrganizationRoleRemotePilot:
+		return true
 	}
+
 	return false
 }
 

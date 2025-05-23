@@ -17,6 +17,8 @@ type upsertMarkerV0Response struct {
 
 // Create or update a marker. This will show up as an incident in the map view
 // of Remote Flight Deck for DFR Command customers.
+//
+// API is in BETA, if there is a breaking change please submit a PR :).
 func (s *MarkersService) Upsert(
 	ctx context.Context,
 	marker *Marker,
