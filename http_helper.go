@@ -117,7 +117,7 @@ func doHTTP[T any](ctx context.Context, c *Client, r *http.Request) (*T, error) 
 
 	// ErrorCodeSuccess is the only code that indicates success.
 	if apiResp.ErrorCode != ErrorCodeSuccess {
-		return nil, errors.New(apiResp.Error())
+		return nil, &apiResp
 	}
 
 	return &apiResp.Data, err

@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-//go:generate enumer -type=AttachmentType -transform=snake-upper -trimprefix=AttachmentType
+//go:generate enumer -type=AttachmentType -transform=snake-upper -trimprefix=AttachmentType -json
 type AttachmentType byte
 
 const (
@@ -22,7 +22,7 @@ const (
 
 // Location of the attachment on the vehicle.
 //
-//go:generate enumer -type=MountPoint -transform=snake-upper -trimprefix=MountPoint
+//go:generate enumer -type=MountPoint -transform=snake-upper -trimprefix=MountPoint -json
 type MountPoint byte
 
 const (
@@ -114,7 +114,7 @@ type BatteryStatus struct {
 
 // Type of dock used.
 //
-//go:generate enumer -type=DockType -transform=snake-upper -trimprefix=DockType
+//go:generate enumer -type=DockType -transform=snake-upper -trimprefix=DockType -json
 type DockType byte
 
 const (
@@ -131,7 +131,7 @@ type Dock struct {
 
 // Type of flight.
 //
-//go:generate enumer -type=FlightStatus -transform=snake-upper -trimprefix=FlightStatus
+//go:generate enumer -type=FlightStatus -transform=snake-upper -trimprefix=FlightStatus -json
 type FlightStatus byte
 
 const (
@@ -142,7 +142,7 @@ const (
 	FlightStatusRest
 )
 
-//go:generate enumer -type=MissionState -transform=snake-upper -trimprefix=MissionState
+//go:generate enumer -type=MissionState -transform=snake-upper -trimprefix=MissionState -json
 type MissionState byte
 
 const (
@@ -163,7 +163,7 @@ type MissionStatus struct {
 	NextScheduledMission *Mission `json:"next_scheduled_mission"`
 }
 
-//go:generate enumer -type=RemoteStreamState -transform=snake-lower -trimprefix=RemoteStreamState
+//go:generate enumer -type=RemoteStreamState -transform=snake-lower -trimprefix=RemoteStreamState -json
 type RemoteStreamState byte
 
 const (
@@ -183,7 +183,7 @@ type UploadStatus struct {
 
 // TODO: Skydio R1 Skydio 2 Skydio X2 Skydio X10
 //
-//go:generate enumer -type=VehicleClass -transform=title -trimprefix=VehicleClass
+//go:generate enumer -type=VehicleClass -transform=title -trimprefix=VehicleClass -json
 type VehicleClass byte
 
 const (
@@ -197,7 +197,7 @@ const (
 //
 // deprecated.
 //
-//go:generate enumer -type=VehicleType -transform=title -trimprefix=VehicleType
+//go:generate enumer -type=VehicleType -transform=title -trimprefix=VehicleType -json
 type VehicleType byte
 
 const (
@@ -224,7 +224,7 @@ type Vehicle struct {
 
 // Type of Alert that was triggered.
 //
-//go:generate enumer -type=AlertType -transform=snake-upper -trimprefix=AlertType
+//go:generate enumer -type=AlertType -transform=snake-upper -trimprefix=AlertType -json
 type AlertType byte
 
 const (
@@ -283,7 +283,7 @@ type JWK struct {
 
 // TODO: space seperated MEMBER TESTER MODERATOR ADMIN "REMOTE PILOT"
 //
-//go:generate enumer -type=OrganizationRole -transform=snake-upper -trimprefix=OrganizationRole
+//go:generate enumer -type=OrganizationRole -transform=snake-upper -trimprefix=OrganizationRole -json
 type OrganizationRole byte
 
 const (
@@ -302,7 +302,7 @@ type User struct {
 	ID               string           `json:"user_id"`
 }
 
-//go:generate enumer -type=FileType -transform=title-lower -trimprefix=FileType
+//go:generate enumer -type=FileType -transform=title-lower -trimprefix=FileType -json
 type FileType byte
 
 const (
@@ -431,7 +431,7 @@ const (
 	RecordingModePhotoDefault        RecordingMode = "PHOTO_Default"
 )
 
-//go:generate enumer -type=HeightBehavior -transform=snake-upper -trimprefix=HeightBehavior
+//go:generate enumer -type=HeightBehavior -transform=snake-upper -trimprefix=HeightBehavior -json
 type HeightBehavior byte
 
 const (
@@ -439,14 +439,14 @@ const (
 	HeightBehaviorRelative                       // Return height is measured in feet relative to the last waypoint.
 )
 
-//go:generate enumer -type=MissionCompletedReturnType -transform=snake-upper -trimprefix=MissionCompletedReturnType
+//go:generate enumer -type=MissionCompletedReturnType -transform=snake-upper -trimprefix=MissionCompletedReturnType -json
 type MissionCompletedReturnType byte
 
 const (
 	MissionCompletedReturnTypeDefault MissionCompletedReturnType = iota
 )
 
-//go:generate enumer -type=MissionInterruptedReturnType -transform=snake-upper -trimprefix=MissionInterruptedReturnType
+//go:generate enumer -type=MissionInterruptedReturnType -transform=snake-upper -trimprefix=MissionInterruptedReturnType -json
 type MissionInterruptedReturnType byte
 
 const (
@@ -463,7 +463,7 @@ type ReturnSettings struct {
 	Speed                         *int                          `json:"speed"`                             // Speed in m/s. 1 to 14 Defaults to 2.
 }
 
-//go:generate enumer -type=RecordAction -transform=snake-upper -trimprefix=RecordAction
+//go:generate enumer -type=RecordAction -transform=snake-upper -trimprefix=RecordAction -json
 type RecordAction byte
 
 const (
@@ -477,7 +477,7 @@ type Orientation struct {
 	HeadingDegrees     float32 `json:"heading_degrees"`
 }
 
-//go:generate enumer -type=ReferenceFrame -transform=snake-upper -trimprefix=ReferenceFrame
+//go:generate enumer -type=ReferenceFrame -transform=snake-upper -trimprefix=ReferenceFrame -json
 type ReferenceFrame byte
 
 const (
@@ -504,4 +504,36 @@ type Waypoint struct {
 	TransitOrientation *Orientation  `json:"transit_orientation"`
 	TransitSpeed       *float32      `json:"transit_speed"`
 	WaitTimeSeconds    *int          `json:"wait_time_seconds"`
+}
+
+// Additional details about the marker.
+type IncidentDetails struct {
+	Code       *string `json:"code"`        // The incident type code.
+	IncidentID *string `json:"incident_id"` // The identifier of the incident. Ex. case number, incident number, etc.
+	Piority    *string `json:"priority"`    // The priority of the incident. Ex. P0, P1, P2.
+}
+
+//go:generate enumer -type=MarkerType -transform=snake-upper -trimprefix=MarkerType -json
+type MarkerType byte
+
+const (
+	MarkerTypeIncident MarkerType = iota
+)
+
+// Markers are typically used to represent incidents like reported suspicious
+// activity or other key events during remote flight operations, and will show
+// up as an incident in the map view and left panel of Remote Flight Deck for
+// DFR Command customers.
+type Marker struct {
+	Area          *string          `json:"area"`           // The area that the marker is associated with. Ex. "5" (precinct number), "Downtown" (sector name), etc.
+	Description   string           `json:"description"`    // Detailed description of the marker that will appear in the marker details.
+	EventTime     time.Time        `json:"event_time"`     // The time of the event that the marker is associated with.
+	Latitude      float32          `json:"latitude"`       // Latitude in degrees.
+	Longitude     float32          `json:"longitude"`      // Longitude in degrees.
+	MarkerDetails *IncidentDetails `json:"marker_details"` // Additional details about the marker. Fields contained within depend on the type of marker.
+	SourceName    *string          `json:"source_name"`    // Partner application name. Ex. Axon, Fusus, etc.
+	Title         *string          `json:"title"`          // A short title for the marker that will appear on the list view for the marker.
+	Type          MarkerType       `json:"type"`           // The type of the marker. This will affect how the marker is displayed on the map view.
+	UUID          *uuid.UUID       `json:"uuid"`           // ID of the marker.
+	Version       float32          `json:"version"`        // An increasing number that represents the version of the marker. Once this field is set, future updates must use a higher version number for changes to take effect. Updates with the same or a lower version will be ignored.
 }

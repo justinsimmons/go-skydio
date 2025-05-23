@@ -33,10 +33,13 @@ type Client struct {
 	Flights        *FlightsService
 	Telemetry      *TelemetryService
 	JWT            *JwtService
-	Vehicles       *VehiclesService
+	Markers        *MarkersService
+	Media          *MediaService
+	Missions       *MissionsService
 	MissionResults *MissionResultsService
 	Scans          *ScansService
 	Users          *UsersService
+	Vehicles       *VehiclesService
 	WhoAmI         *WhoAmIService
 }
 
@@ -95,10 +98,13 @@ func NewClient(opts ...option) *Client {
 	client.Flights = (*FlightsService)(&client.common)
 	client.Telemetry = (*TelemetryService)(&client.common)
 	client.JWT = (*JwtService)(&client.common)
-	client.Vehicles = (*VehiclesService)(&client.common)
+	client.Markers = (*MarkersService)(&client.common)
+	client.Media = (*MediaService)(&client.common)
+	client.Missions = (*MissionsService)(&client.common)
 	client.MissionResults = (*MissionResultsService)(&client.common)
 	client.Scans = (*ScansService)(&client.common)
 	client.Users = (*UsersService)(&client.common)
+	client.Vehicles = (*VehiclesService)(&client.common)
 	client.WhoAmI = (*WhoAmIService)(&client.common)
 
 	for _, opt := range opts {
