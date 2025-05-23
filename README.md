@@ -114,7 +114,7 @@ for {
     allFlights = append(allFlights, flights...)
 
     // If there are no more pages break.
-    if page.IsEnd() {
+    if page.IsLast() {
         break
     }
 

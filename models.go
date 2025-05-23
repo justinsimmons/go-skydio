@@ -87,8 +87,8 @@ type Pagination struct {
 	TotalPages  int `json:"total_page"`   // Total pages of results.
 }
 
-// IsEnd returns true if there are no more pages to fetch.
-func (p *Pagination) IsEnd() bool {
+// IsLast returns true if there are no more pages to fetch.
+func (p *Pagination) IsLast() bool {
 	// Current page starts at 1, if it is 0 then it has not been initialized,
 	// so we return false assuming this is the first run.
 	if p.CurrentPage <= 0 {
