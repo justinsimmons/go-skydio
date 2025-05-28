@@ -96,7 +96,10 @@ opts := &skydio.QueryFlightsOptions{
 var allFlights []skydio.Flight
 
 for {
-    flights, page, err := client.Flights.Query(context.TODO(), opts)
+    flights, page, err := client.Flights.Query(
+        context.TODO(),
+        opts,
+    )
     if err != nil {
         return err
     }

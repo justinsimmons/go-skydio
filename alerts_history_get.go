@@ -33,7 +33,7 @@ type GetAlertHistoryV0Response struct {
 // Search mission alerts by various parameters.
 func (s *AlertsService) GetHistory(
 	ctx context.Context,
-	opts ...GetAlertHistoryOptions,
+	opts *GetAlertHistoryOptions,
 ) (*GetAlertHistoryV0Response, error) {
 
 	u, err := addOptions("/api/v0/alerts_history", opts)

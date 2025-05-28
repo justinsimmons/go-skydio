@@ -86,7 +86,6 @@ linters:
     - protogetter
     - reassign
     - recvcheck
-    - revive
     - rowserrcheck
     - sloglint
     - spancheck
@@ -113,6 +112,7 @@ linters:
     - wrapcheck # Error wrapping can get excessive.
     - depguard # Does not allow private packages.
     - exhaustruct # Don't always need to initialize everything in a struct.
+    - revive
   settings:
     lll:
       # Max line length, lines longer will be reported.
