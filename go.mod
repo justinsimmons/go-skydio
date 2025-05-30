@@ -1,4 +1,4 @@
-module github.com/justinsimmons/go-skydio
+module github.com/airspace-link-inc/go-skydio
 
 go 1.24.3
 
