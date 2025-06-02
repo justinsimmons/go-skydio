@@ -208,15 +208,16 @@ type Vehicle struct {
 	BatteryStatus     *BatteryStatus     `json:"battery_status"` // Information about the vehicle's battery. Only populated if vehicle is online
 	Dock              *Dock              `json:"dock"`           // Information about the vehicle's linked dock. Only populated if vehicle is linked to a dock.
 	FlightStatus      *FlightStatus      `json:"flight_status"`
-	IsOnline          bool               `json:"is_online"`            // Whether or not the vehicle has a direct connection to the internet.
-	IsOnlineViaMobile bool               `json:"is_online_via_mobile"` // Whether or not the vehicle is connected to the internet via a connected mobile device.
+	IsOnline          *bool              `json:"is_online"`            // Whether or not the vehicle has a direct connection to the internet.
+	IsOnlineViaMobile *bool              `json:"is_online_via_mobile"` // Whether or not the vehicle is connected to the internet via a connected mobile device.
 	MissionStatus     *MissionStatus     `json:"mission_status"`       // Information about the current mission and next scheduled mission on the vehicle.
 	Name              *string            `json:"name"`                 // The display name / nickname for the vehicle. Defaults to vehicle serial.
 	RemoteStreamState *RemoteStreamState `json:"remote_stream_state"`
 	UploadStatus      *UploadStatus      `json:"upload_status"` // Information about the file uploads on the vehicle. Only populated if vehicle is online.
 	UserEmails        []string           `json:"user_emails"`   // Users that have flown this vehicle.
 	VehicleClass      VehicleClass       `json:"vehicle_class"`
-	VehicleType       *VehicleType       `json:"vehicle_type"` // Deprecated.
+	VehicleSerial     string             `json:"vehicle_serial"` // Serial number of the vehicle.
+	VehicleType       *VehicleType       `json:"vehicle_type"`   // Deprecated.
 }
 
 // Type of Alert that was triggered.
