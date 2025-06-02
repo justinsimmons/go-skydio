@@ -216,7 +216,8 @@ type Vehicle struct {
 	UploadStatus      *UploadStatus      `json:"upload_status"` // Information about the file uploads on the vehicle. Only populated if vehicle is online.
 	UserEmails        []string           `json:"user_emails"`   // Users that have flown this vehicle.
 	VehicleClass      VehicleClass       `json:"vehicle_class"`
-	VehicleType       *VehicleType       `json:"vehicle_type"` // Deprecated.
+	VehicleType       *VehicleType       `json:"vehicle_type"`   // Deprecated.
+	VehicleSerial     string             `json:"vehicle_serial"` // Required response per API, https://apidocs.skydio.com/reference/vehicles_get_v0_vehicles
 }
 
 // Type of Alert that was triggered.
