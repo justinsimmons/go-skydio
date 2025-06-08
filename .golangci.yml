@@ -121,7 +121,21 @@ linters:
       line-length: 80
       # Tab width in spaces.
       # Default: 1
-      tab-width: 1
+      tab-width: 4
+    gocyclo:
+      # Minimal code complexity to report.
+      # Default: 30 (but we recommend 10-20)
+      min-complexity: 10
+    gocognit:
+      # Minimal code complexity to report.
+      # Default: 30 (but we recommend 10-20)
+      min-complexity: 10
+    errcheck:
+      # report about not checking of errors in type assetions:
+      # `a := b.(MyStruct)`;
+      # default is false: such cases aren't reported by default.
+      check-type-assertions: true
+
 formatters:
   # See the dedicated "formatters" documentation section.
 issues:
