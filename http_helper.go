@@ -115,12 +115,14 @@ func doHTTP[T any](ctx context.Context, c *Client, r *http.Request) (*T, error) 
 		return nil, err
 	}
 
-	// ErrorCodeSuccess is the only code that indicates success.
-	if apiResp.ErrorCode != ErrorCodeSuccess {
-		return nil, &apiResp
+	switch apiResp.ErrorCode {
+	case ErrorCodeSuccess:
+		// API call was a success :)
+		return &apiResp.Data, err
+	default:
+		// API call encountered an error, wrap the response.
+		return nil, apiResp.ApiError()
 	}
-
-	return &apiResp.Data, err
 }
 
 // addOptions adds the parameters in opts as URL query parameters to s. opts

@@ -14,7 +14,8 @@ go get -u github.com/justinsimmons/go-skydio
 
 ## Usage
 
-First initialize a Skydio API client. This will allow you to interface with the API in an easy manner.
+First initialize a Skydio API client. This will allow you to interface with
+the API in an easy manner.
 
 ```go
 import "github.com/justinsimmons/go-coinbase"
@@ -74,10 +75,56 @@ Once you have the API token you can supply it to the Go Skydio client one of two
 token := "super secret"
 
 // You can pass the API token in directly as an option to the constructor.
-client := skydio.NewClient(skydio.WithApiKey(token))
+client := skydio.NewClient(skydio.WithApiToken(token))
 
 // Or you can use the provided convenience function:
 client = skydio.NewAuthenticatedClient(token)
+```
+
+## Error Handling
+
+The client makes use of sentinel errors as return values. This allows you to
+take advantage of the native Go error comparison via the
+[errors](https://pkg.go.dev/errors) package:
+
+```go
+serialNumber := "Vehicle Serial #"
+
+vehicles, page, err := client.Vehicles.Get(context.TODO(), serialNumber)
+if err != nil {
+    if errors.Is(err, skydio.ErrVehicleNotFound) {
+        // Perform custom logic here...
+    }
+
+    // Handle generic API error.
+    return err
+}
+```
+
+This is not recommended but if you would like even more fine grained
+information about the error you can use a
+[type assertion](https://go.dev/tour/methods/15):
+
+```go
+    apiErr, ok := err.(*skydio.ApiError)
+    if !ok {
+        // This is not a Skydio API error. ONLY API responses from Skydio
+        // yield a skydio.ApiError.
+        // As is the case if the HTTP request fails to generate etc.
+        return
+    }
+
+    fmt.Println(apiErr.Code) // EX: 4200
+    fmt.Println(apiErr.Message) // EX: "Vehicle not found."
+    fmt.Println(apiErr.HttpStatusCode) // EX: 404
+
+    // You can even have deeper access to the exact API response received from
+    // the Skydio API.
+    resp, ok := apiErr.(*skydio.ApiResponse[any])
+    if !ok { /* .... */ }
+
+    fmt.Println(resp.Data) // EX: {}
+    fmt.Println(resp.Meta) // EX: {}
 ```
 
 ## Pagination

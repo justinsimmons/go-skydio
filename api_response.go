@@ -5,8 +5,6 @@
 
 package skydio
 
-import "fmt"
-
 // Error codes returned from the Skydio Cloud API.
 //
 //go:generate enumer -type=ErrorCode -transform=snake-upper -trimprefix=ErrorCode
@@ -59,10 +57,12 @@ type ApiResponse[T any] struct {
 	StatusCode   int                 `json:"status_code"`             // The HTTP status code of the response included in the response body.
 }
 
-func (r *ApiResponse[T]) Error() string {
-	return fmt.Sprintf(
-		"skydio api error: %d, %s",
-		r.ErrorCode,
-		r.ErrorMessage,
-	)
+// ApiError converts the response into an API Error, useful for generating,
+// sentinel errors.
+func (r *ApiResponse[T]) ApiError() *ApiError {
+	return &ApiError{
+		Code:     r.ErrorCode,
+		Message:  r.ErrorMessage,
+		Response: r,
+	}
 }
